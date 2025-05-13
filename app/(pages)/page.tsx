@@ -8,7 +8,7 @@ export default function Home() {
     <main className="min-h-screen bg-black text-white flex flex-col relative overflow-hidden">
       <Header />
       <Hero />
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }
