@@ -2,8 +2,10 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FiMenu, FiX, FiSearch, FiUser } from "react-icons/fi";
-import { AnimatePresence, motion } from "framer-motion"; // keep AnimatePresence & motion if needed for menu animation
+import { AnimatePresence, motion } from "framer-motion";
+import Button from "@/ui/Button";
 
 interface NavItem {
   label: string;
@@ -11,108 +13,97 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Templates", href: "/templates" },
-  { label: "Analytics", href: "/analytics" },
-  { label: "Integrations", href: "/integrations" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Overview", href: "/overview" },
+  { label: "Models", href: "/models" },
+  { label: "Endpoints", href: "/endpoints" },
+  { label: "Insights", href: "/insights" },
   { label: "Support", href: "/support" },
 ];
 
 const Header: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   const toggleMenu = useCallback(() => setMenuOpen((prev) => !prev), []);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <header
-      className={`
-        fixed w-full top-0 z-50 transition-all duration-300
-        ${
-          scrolled
-            ? "bg-black/60 backdrop-blur-md shadow-xl py-2"
-            : "bg-transparent py-4"
-        }
-      `}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-black/80 backdrop-blur-sm py-2 shadow-lg"
+          : "bg-transparent py-4"
+      }`}
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 items-center px-4 sm:px-6 lg:px-8">
+      <div className="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <div className="flex items-center">
-          <Link href="/" className="flex items-center gap-3">
-            <Image
-              src="/logo.svg"
-              alt="Visionlyft Logo"
-              width={36}
-              height={36}
-              priority
-            />
-            {/* Static text without animation */}
-            <span className="text-lg font-extrabold text-white tracking-tight">
-              Visionlyft
-            </span>
-          </Link>
-        </div>
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/logo.svg"
+            alt="Visionlyft logo"
+            width={32}
+            height={32}
+            priority
+          />
+          <span className="text-xl font-bold text-white">Visionlyft</span>
+        </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center justify-center space-x-8">
-          {NAV_ITEMS.map(({ label, href }) => (
-            <Link
-              key={href}
-              href={href}
-              className={
-                "relative group text-gray-300 hover:text-white text-sm font-medium transition-colors duration-200 px-2 py-1 rounded-sm hover:bg-white/20"
-              }
-            >
-              {label}
-              {/* underline scales from left */}
-              <span
-                className={
-                  "absolute bottom-0 left-0 w-full h-[2px] bg-blue-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"
-                }
-              />
-            </Link>
-          ))}
+        {/* Centered Nav */}
+        <nav className="hidden lg:flex absolute left-1/2 transform -translate-x-1/2">
+          {NAV_ITEMS.map(({ label, href }) => {
+            const active = pathname?.startsWith(href);
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`relative px-4 py-1 mx-2 text-sm font-medium transition-colors duration-200 ${
+                  active ? "text-white" : "text-gray-300 hover:text-white"
+                }`}
+                aria-current={active ? "page" : undefined}
+              >
+                {label}
+                <motion.span
+                  className="absolute inset-x-0 bottom-0 h-0.5 bg-blue-500 origin-left"
+                  initial={{ scaleX: active ? 1 : 0 }}
+                  animate={{ scaleX: active ? 1 : 0 }}
+                  whileHover={{ scaleX: 1 }}
+                  transition={{ duration: 0.2 }}
+                />
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Right Side Actions */}
-        <div className="flex items-center justify-end gap-2 md:gap-3">
-          <button
-            type="button"
-            aria-label="Search"
-            className="hidden md:flex p-2 rounded-full hover:bg-white/10 transition"
-          >
-            <FiSearch className="w-5 h-5 text-gray-300 hover:text-white" />
-          </button>
-          <button
-            type="button"
-            aria-label="Profile"
-            className="hidden md:flex p-2 rounded-full hover:bg-white/10 transition"
-          >
-            <FiUser className="w-5 h-5 text-gray-300 hover:text-white" />
-          </button>
-          <Link
-            href="/signup"
-            className={
-              "hidden md:inline-flex items-center px-5 py-2 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 text-white text-xs font-semibold tracking-wide shadow-lg hover:from-blue-700 hover:to-blue-900 hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all duration-200"
-            }
-          >
-            Get Started
-          </Link>
-
-          {/* Mobile Menu Toggle */}
+        {/* Actions & Mobile Toggle */}
+        <div className="flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-3">
+            <button
+              aria-label="Search"
+              className="p-2 rounded-full hover:bg-white/10 transition"
+            >
+              <FiSearch className="w-5 h-5 text-gray-300 hover:text-white" />
+            </button>
+            <button
+              aria-label="Profile"
+              className="p-2 rounded-full hover:bg-white/10 transition"
+            >
+              <FiUser className="w-5 h-5 text-gray-300 hover:text-white" />
+            </button>
+            <Link href="/signup">
+              <Button className="text-xs">Create Workspace</Button>
+            </Link>
+          </div>
           <button
             onClick={toggleMenu}
-            type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            className="md:hidden p-2 rounded-md hover:bg-white/10 transition"
+            className="p-2 rounded-md hover:bg-white/10 transition lg:hidden"
           >
             {menuOpen ? (
               <FiX className="w-6 h-6 text-white" />
@@ -123,48 +114,61 @@ const Header: FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.nav
-            id="mobile-menu"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-black/90 backdrop-blur-md overflow-hidden"
+            className="fixed inset-0 z-40 bg-black/90 backdrop-blur-sm flex flex-col pt-6 px-6"
           >
-            <div className="flex flex-col px-6 py-5 space-y-4">
+            <div className="flex items-center justify-between">
+              <Link href="/" className="flex items-center gap-2">
+                <Image
+                  src="/logo.svg"
+                  alt="Visionlyft logo"
+                  width={28}
+                  height={28}
+                  priority
+                />
+                <span className="text-lg font-bold text-white">Visionlyft</span>
+              </Link>
+              <button
+                onClick={toggleMenu}
+                aria-label="Close menu"
+                className="p-2 rounded-md hover:bg-white/10 transition"
+              >
+                <FiX className="w-6 h-6 text-white" />
+              </button>
+            </div>
+            <nav className="mt-8 flex flex-col items-center space-y-4">
               {NAV_ITEMS.map(({ label, href }) => (
                 <Link
                   key={href}
                   href={href}
                   onClick={() => setMenuOpen(false)}
-                  className={
-                    "text-gray-200 hover:text-white text-base font-medium transition-colors duration-200"
-                  }
+                  className="text-white text-lg font-medium hover:text-blue-400 transition"
                 >
                   {label}
                 </Link>
               ))}
-              <Link
-                href="/login"
-                onClick={() => setMenuOpen(false)}
-                className="text-white text-base font-medium hover:underline"
-              >
-                Login
+            </nav>
+            <div className="mt-auto mb-6 flex flex-col space-y-3">
+              <Link href="/login">
+                <button className="w-full text-left text-white text-base font-medium hover:underline">
+                  Login
+                </button>
               </Link>
-              <Link
-                href="/signup"
-                onClick={() => setMenuOpen(false)}
-                className={
-                  "inline-flex items-center justify-center px-4 py-2 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 text-white text-sm font-semibold shadow-md hover:from-blue-700 hover:to-blue-900 hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all duration-200"
-                }
-              >
-                Get Started
+              <Link href="/signup">
+                <button className="w-full px-4 py-2 text-center rounded-md bg-blue-500 text-white font-semibold hover:bg-blue-600 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400">
+                  Create Workspace
+                </button>
               </Link>
             </div>
-          </motion.nav>
+          </motion.div>
         )}
       </AnimatePresence>
     </header>
