@@ -40,7 +40,7 @@ const SLIDES: Slide[] = [
     title: "Multi-Tenant & Isolated",
     subtitle:
       "Workspaces with access control, API key isolation, and visibility.",
-    gradient: "from-red-900 via-pink-800 to-red-950",
+    gradient: "from-fuchsia-900 via-pink-800 to-rose-900",
   },
 ];
 
@@ -88,29 +88,26 @@ const HeroSlider: FC = () => {
   return (
     <section
       onMouseMove={handleMouseMove}
-      className="relative w-full min-h-screen overflow-hidden bg-black flex items-center justify-center"
+      className="relative w-full min-h-screen overflow-hidden bg-gradient-to-br from-[#0e0e11] via-black to-[#0b0b0f] flex items-center justify-center"
     >
       {/* Orbs */}
       <motion.div
         style={{ x: orb1X, y: orb1Y }}
-        className="pointer-events-none absolute -top-32 -left-32 w-80 h-80 bg-indigo-500/20 blur-3xl rounded-full animate-pulse"
+        className="pointer-events-none absolute -top-32 -left-32 w-80 h-80 bg-indigo-500/25 blur-3xl rounded-full animate-pulse"
       />
       <motion.div
         style={{ x: orb2X, y: orb2Y }}
-        className="pointer-events-none absolute -bottom-32 -right-32 w-80 h-80 bg-teal-500/20 blur-3xl rounded-full animate-pulse"
+        className="pointer-events-none absolute -bottom-32 -right-32 w-80 h-80 bg-pink-500/20 blur-3xl rounded-full animate-pulse"
       />
 
-      {/* Floating Particles */}
+      {/* Floating Code Block */}
       <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-        className="absolute top-[15%] left-[10%] w-10 h-10 bg-white/10 rounded-full blur-md"
-      />
-      <motion.div
-        animate={{ y: [0, 12, 0] }}
-        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-        className="absolute bottom-[12%] right-[8%] w-6 h-6 bg-white/10 rounded-full blur-lg"
-      />
+        className="absolute top-10 left-1/2 -translate-x-1/2 z-10 text-white/10 text-xs font-mono select-none"
+        animate={{ opacity: [0.2, 0.4, 0.2] }}
+        transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }}
+      >
+        {`const Vision = () => <API schema={model} autoDeploy />;`}
+      </motion.div>
 
       {/* Slide Content */}
       <AnimatePresence mode="wait">
@@ -129,9 +126,7 @@ const HeroSlider: FC = () => {
             variants={{
               hidden: {},
               visible: {
-                transition: {
-                  staggerChildren: 0.08,
-                },
+                transition: { staggerChildren: 0.08 },
               },
             }}
           >
@@ -142,7 +137,9 @@ const HeroSlider: FC = () => {
                   hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0 },
                 }}
-                className="inline-block"
+                className={`inline-block ${
+                  word.toLowerCase() === "api" ? "text-indigo-400" : ""
+                }`}
               >
                 {word}
               </motion.span>

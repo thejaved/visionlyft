@@ -1,6 +1,6 @@
 import React from "react";
-import HeroSlider from "@/app/components/HeroSlider";
-import Header from "@/components/Header";
+import HeroSlider from "@/app/components/home/HeroSlider";
+import Header from "@/app/components/common/Header";
 
 export default function Home() {
   return (
