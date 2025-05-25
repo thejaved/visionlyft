@@ -35,34 +35,15 @@ const TopSection: React.FC<TopSectionProps> = ({
 
       {/* Glow Orbs */}
       <motion.div
-        className="absolute -top-32 -left-32 w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] bg-indigo-500/25 rounded-full blur-[100px] z-0"
+        className="absolute -top-32 -left-32 w-[220px] sm:w-[320px] h-[220px] sm:h-[320px] bg-indigo-500/25 rounded-full blur-[100px] z-0"
         animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.1, 1] }}
         transition={{ repeat: Infinity, duration: 14 }}
       />
       <motion.div
-        className="absolute -bottom-32 -right-32 w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] bg-pink-600/20 rounded-full blur-[120px] z-0"
+        className="absolute -bottom-32 -right-32 w-[220px] sm:w-[320px] h-[220px] sm:h-[320px] bg-pink-600/20 rounded-full blur-[120px] z-0"
         animate={{ opacity: [0.1, 0.4, 0.1], scale: [1, 1.1, 0.95] }}
         transition={{ repeat: Infinity, duration: 16 }}
       />
-
-      {/* Floating JSON Block */}
-      <div className="absolute bottom-16 w-full flex justify-center z-10 px-4">
-        <motion.div
-          className="relative bg-white/5 text-white text-xs font-mono rounded-xl px-6 py-4 border border-white/10 shadow-xl backdrop-blur-md max-w-full overflow-x-auto transition hover:shadow-2xl hover:border-white/20 before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-indigo-400/10 before:via-pink-500/10 before:to-purple-500/10 before:blur-md before:opacity-0 hover:before:opacity-20"
-          initial={fadeInUp.initial}
-          animate={{
-            ...fadeInUp.animate,
-            opacity: [0.7, 0.95, 0.7],
-            y: [20, 10, 20],
-          }}
-          transition={{ duration: 6, repeat: Infinity }}
-        >
-          <code className="whitespace-nowrap">
-            {`{ "service": "VisionAPI", "status": "live", "scalable": true }`}
-            <span className="animate-pulse text-white/60 ml-1">▍</span>
-          </code>
-        </motion.div>
-      </div>
 
       {/* Floating Sparkles */}
       <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
@@ -87,7 +68,7 @@ const TopSection: React.FC<TopSectionProps> = ({
         </motion.p>
 
         <motion.h1
-          className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight flex flex-wrap justify-center gap-x-2"
+          className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight flex flex-wrap justify-center gap-x-2"
           initial="hidden"
           animate="visible"
           variants={{
