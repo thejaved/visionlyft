@@ -1,7 +1,16 @@
+"use client";
+
 import React from "react";
+import { motion } from "framer-motion";
 import Button from "@/app/components/common/Button";
 import Header from "@/app/components/common/Header";
 import TopSection from "@/app/components/common/TopSection";
+import FeaturedResources from "@/app/components/resources/FeaturedResources";
+import DocumentationGrid from "@/app/components/resources/DocumentationGrid";
+import LearningHub from "@/app/components/resources/LearningHub";
+import CommunitySupport from "@/app/components/resources/CommunitySupport";
+import ResourceCTABanner from "@/app/components/resources/ResourceCTABanner";
+import Footer from "@/app/components/common/Footer";
 
 function Resources() {
   return (
@@ -17,6 +26,12 @@ function Resources() {
           </>
         }
       />
+      <FeaturedResources />
+      <DocumentationGrid />
+      <LearningHub />
+      <CommunitySupport />
+      <ResourceCTABanner />
+      <Footer />
     </>
   );
 }

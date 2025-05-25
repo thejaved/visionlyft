@@ -35,8 +35,8 @@ const Header: FC = () => {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 backdrop-blur-md ${
-        scrolled ? "bg-primary/80 shadow-lg" : "bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 backdrop-blur-md border-white/10 ${
+        scrolled ? "bg-primary/80 border-b" : "bg-transparent"
       }`}
     >
       <div className="flex items-center justify-between max-w-7xl mx-auto py-4 px-6 sm:px-8 lg:px-10">

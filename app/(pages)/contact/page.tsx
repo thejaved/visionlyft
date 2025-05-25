@@ -2,6 +2,8 @@ import React from "react";
 import Button from "@/app/components/common/Button";
 import Header from "@/app/components/common/Header";
 import TopSection from "@/app/components/common/TopSection";
+import ContactOptions from "@/app/components/contact/ContactOptions";
+import Footer from "@/app/components/common/Footer";
 
 function Contact() {
   return (
@@ -17,6 +19,8 @@ function Contact() {
           </>
         }
       />
+      <ContactOptions />
+      <Footer />
     </>
   );
 }

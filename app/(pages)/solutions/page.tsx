@@ -2,6 +2,11 @@ import React from "react";
 import Button from "@/app/components/common/Button";
 import Header from "@/app/components/common/Header";
 import TopSection from "@/app/components/common/TopSection";
+import SolutionsOverview from "@/app/components/common/SolutionsOverview";
+import WhyVisionlyft from "@/app/components/common/WhyVisionlyft";
+import LiveDemo from "@/app/components/common/LiveDemo";
+import CallToAction from "@/app/components/common/CallToAction";
+import Footer from "@/app/components/common/Footer";
 
 function Solutions() {
   return (
@@ -17,6 +22,11 @@ function Solutions() {
           </>
         }
       />
+      <SolutionsOverview />
+      <WhyVisionlyft />
+      <LiveDemo />
+      <CallToAction />
+      <Footer />
     </>
   );
 }
