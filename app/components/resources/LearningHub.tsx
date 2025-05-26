@@ -44,7 +44,7 @@ const LearningHub = () => {
           className="text-center text-sm sm:text-base text-gray-400 max-w-2xl mx-auto mb-12"
         >
           Explore quick tutorials and webinars to get the most out of
-          Visionlyft's platform.
+          Visionlyft&apos;s platform.
         </motion.p>
 
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">

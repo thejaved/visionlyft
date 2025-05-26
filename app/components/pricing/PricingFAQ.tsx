@@ -44,8 +44,8 @@ export default function PricingFAQ() {
           Need a Custom Plan?
         </motion.h2>
         <p className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto mb-12">
-          If your team has unique needs or higher volume, we're happy to provide
-          a tailored quote.
+          If your team has unique needs or higher volume, we&apos;re happy to
+          provide a tailored quote.
           <br /> Contact sales to explore a custom enterprise solution.
         </p>
 

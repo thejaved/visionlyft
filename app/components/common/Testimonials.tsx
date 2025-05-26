@@ -30,7 +30,7 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="relative bg-[#0a0a0a] py-28 px-6 sm:px-12 border-t border-white/10 overflow-hidden">
+    <section className="relative bg-[rgb(10,10,10)] py-28 px-6 sm:px-12 border-t border-white/10 overflow-hidden">
       <div className="max-w-6xl mx-auto text-center relative z-10">
         {/* Heading */}
         <motion.h2

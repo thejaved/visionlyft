@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import Button from "@/app/components/common/Button";
 import Header from "@/app/components/common/Header";
 import TopSection from "@/app/components/common/TopSection";

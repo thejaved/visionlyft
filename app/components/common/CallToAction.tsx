@@ -27,9 +27,9 @@ const CallToAction = () => {
           viewport={{ once: true }}
           className="text-gray-400 text-sm sm:text-base max-w-xl mx-auto mb-10"
         >
-          Whether you're launching your first product or growing your platform,
-          Visionlyft gives you the tools to build fast, stay secure, and scale
-          without limits.
+          Whether you&apos;re launching your first product or growing your
+          platform, Visionlyft gives you the tools to build fast, stay secure,
+          and scale without limits.
         </motion.p>
 
         {/* Buttons */}

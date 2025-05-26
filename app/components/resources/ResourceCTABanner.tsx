@@ -24,8 +24,8 @@ const ResourceCTABanner = () => {
           viewport={{ once: true }}
           className="text-sm sm:text-base text-white/90 max-w-xl mx-auto mb-8"
         >
-          Whether you're stuck on integration or want expert advice on scaling
-          your product, our engineers are here to assist you directly.
+          Whether you&apos;re stuck on integration or want expert advice on
+          scaling your product, our engineers are here to assist you directly.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

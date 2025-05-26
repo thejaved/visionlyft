@@ -41,7 +41,7 @@ const TrustedBy = () => {
           }}
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-10 items-center"
         >
-          {partners.map((partner, i) => (
+          {partners.map((partner) => (
             <motion.div
               key={partner.name}
               className="flex items-center justify-center"

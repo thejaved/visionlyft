@@ -70,13 +70,22 @@ export default function Footer() {
           </p>
           <div className="flex space-x-5">
             {[
-              ["https://github.com", FiGithub],
-              ["https://twitter.com", FiTwitter],
-              ["https://linkedin.com", FiLinkedin],
-            ].map(([url, Icon], i) => (
+              {
+                Icon: FiGithub,
+                link: "https://github.com",
+              },
+              {
+                Icon: FiTwitter,
+                link: "https://twitter.com",
+              },
+              {
+                Icon: FiLinkedin,
+                link: "https://linkedin.com",
+              },
+            ].map(({ Icon, link }, i) => (
               <a
                 key={i}
-                href={url}
+                href={link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition hover:scale-110"
