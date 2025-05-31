@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import Button from "@/app/components/common/Button";
-import Header from "@/app/components/common/Header";
-import TopSection from "@/app/components/common/TopSection";
-import FeaturedResources from "@/app/components/resources/FeaturedResources";
-import DocumentationGrid from "@/app/components/resources/DocumentationGrid";
-import LearningHub from "@/app/components/resources/LearningHub";
-import CommunitySupport from "@/app/components/resources/CommunitySupport";
-import ResourceCTABanner from "@/app/components/resources/ResourceCTABanner";
-import Footer from "@/app/components/common/Footer";
+import Button from "@/components/common/Button";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+import TopSection from "@/components/common/TopSection";
+import LearningHub from "@/components/resources/LearningHub";
+import FeaturedResources from "@/components/resources/FeaturedResources";
+import DocumentationGrid from "@/components/resources/DocumentationGrid";
+import CommunitySupport from "@/components/resources/CommunitySupport";
+import ResourceCTABanner from "@/components/resources/ResourceCTABanner";
 
 function Resources() {
   return (

@@ -1,12 +1,12 @@
 import React from "react";
-import Button from "@/app/components/common/Button";
-import Header from "@/app/components/common/Header";
-import TopSection from "@/app/components/common/TopSection";
-import SolutionsOverview from "@/app/components/common/SolutionsOverview";
-import WhyVisionlyft from "@/app/components/common/WhyVisionlyft";
-import LiveDemo from "@/app/components/common/LiveDemo";
-import CallToAction from "@/app/components/common/CallToAction";
-import Footer from "@/app/components/common/Footer";
+import Button from "@/components/common/Button";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+import LiveDemo from "@/components/common/LiveDemo";
+import TopSection from "@/components/common/TopSection";
+import CallToAction from "@/components/common/CallToAction";
+import WhyVisionlyft from "@/components/common/WhyVisionlyft";
+import SolutionsOverview from "@/components/common/SolutionsOverview";
 
 function Solutions() {
   return (

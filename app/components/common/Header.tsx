@@ -1,10 +1,11 @@
 "use client";
-import React, { FC, useState, useEffect, useCallback } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { FiMenu, FiX, FiSearch, FiUser } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
+import { FiMenu, FiX, FiSearch, FiUser } from "react-icons/fi";
+import React, { FC, useState, useEffect, useCallback } from "react";
+
 import Button from "./Button";
 
 interface NavItem {
@@ -75,7 +76,7 @@ const Header: FC = () => {
           >
             {NAV_ITEMS.map(({ label, href }) => {
               const active =
-                pathname === href || pathname.startsWith(href + "/");
+                pathname === href || pathname?.startsWith(href + "/");
               return (
                 <motion.li
                   key={href}

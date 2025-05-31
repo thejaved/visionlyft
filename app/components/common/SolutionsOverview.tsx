@@ -1,8 +1,4 @@
 "use client";
-
-import React from "react";
-import Tilt from "react-parallax-tilt";
-import { motion } from "framer-motion";
 import {
   FaCode,
   FaCloud,
@@ -10,6 +6,9 @@ import {
   FaPaintBrush,
   FaTools,
 } from "react-icons/fa";
+import React from "react";
+import Tilt from "react-parallax-tilt";
+import { motion } from "framer-motion";
 
 const solutions = [
   {

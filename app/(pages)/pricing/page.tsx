@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "@/app/components/common/Header";
-import TopSection from "@/app/components/common/TopSection";
-import PricingTiersGrid from "@/app/components/pricing/PricingTiersGrid";
-import PricingFAQ from "@/app/components/pricing/PricingFAQ";
-import Footer from "@/app/components/common/Footer";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+import TopSection from "@/components/common/TopSection";
+import PricingFAQ from "@/components/pricing/PricingFAQ";
+import PricingTiersGrid from "@/components/pricing/PricingTiersGrid";
 
 function Pricing() {
   return (

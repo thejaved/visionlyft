@@ -1,6 +1,4 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
 import {
   FaCogs,
   FaSync,
@@ -9,6 +7,8 @@ import {
   FaLock,
   FaMobileAlt,
 } from "react-icons/fa";
+import React from "react";
+import { motion } from "framer-motion";
 
 const features = [
   {

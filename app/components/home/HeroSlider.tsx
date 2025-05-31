@@ -1,15 +1,14 @@
 "use client";
-
-import React, { FC, useState, useCallback } from "react";
 import {
   motion,
   AnimatePresence,
   useMotionValue,
   useTransform,
 } from "framer-motion";
+import Button from "@/common/Button";
+import useInterval from "@/hooks/useInterval";
 import { FiPause, FiPlay } from "react-icons/fi";
-import Button from "../common/Button";
-import useInterval from "@/app/hooks/useInterval";
+import React, { FC, useState, useCallback } from "react";
 
 interface Slide {
   title: string;

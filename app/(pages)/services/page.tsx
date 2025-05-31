@@ -1,9 +1,9 @@
 import React from "react";
-import Button from "@/app/components/common/Button";
-import Header from "@/app/components/common/Header";
-import TopSection from "@/app/components/common/TopSection";
-import CoreServices from "@/app/components/services/CoreServices";
-import Footer from "@/app/components/common/Footer";
+import Button from "@/components/common/Button";
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+import TopSection from "@/components/common/TopSection";
+import CoreServices from "@/components/services/CoreServices";
 
 function Services() {
   return (
