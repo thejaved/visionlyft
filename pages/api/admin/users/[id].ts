@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
+import { encrypt } from "@/lib/crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { sha256 } from "@/lib/crypto";
 import connectDB from "@/lib/connectDB";
 import User, { IUser } from "@/models/User";
 import { withEncryption } from "@/middleware/encryption";
@@ -13,7 +13,7 @@ interface UpdateUserBody {
 }
 
 type ErrorResponse = { success: false; message: string };
-type UserResponse = { success: true; data: Partial<IUser> };
+type UserResponse = { success: true; data?: Partial<IUser>; message?: string };
 type ResponseData = ErrorResponse | UserResponse;
 
 export default withEncryption(async function handler(
@@ -32,15 +32,13 @@ export default withEncryption(async function handler(
 
   if (method === "GET") {
     try {
-      const user = await User.findById(userId, {
-        password: 0,
-        emailHash: 0,
-      }).lean();
-      if (!user) {
+      const userDoc = await User.findById(userId);
+      if (!userDoc) {
         return res
           .status(404)
           .json({ success: false, message: "User not found" });
       }
+      const user = userDoc.toObject({ getters: true, virtuals: false });
       return res.status(200).json({ success: true, data: user });
     } catch {
       return res.status(500).json({ success: false, message: "Server Error" });
@@ -62,7 +60,7 @@ export default withEncryption(async function handler(
       }
     }
 
-    let hashedEmail: string | undefined;
+    let encryptedEmail: string | undefined;
     if (email !== undefined) {
       if (
         typeof email !== "string" ||
@@ -73,11 +71,14 @@ export default withEncryption(async function handler(
           .json({ success: false, message: "Invalid email address." });
       }
       const normalizedEmail = email.trim().toLowerCase();
-      hashedEmail = sha256(normalizedEmail);
+      encryptedEmail = encrypt(normalizedEmail);
+
       const existing = await User.findOne({
-        emailHash: hashedEmail,
+        email: encryptedEmail,
         _id: { $ne: userId },
-      }).lean();
+      })
+        .select("_id")
+        .lean();
       if (existing) {
         return res
           .status(409)
@@ -96,10 +97,8 @@ export default withEncryption(async function handler(
 
     const updateFields: Partial<IUser> = {};
     if (name) updateFields.name = name.trim();
-    if (email) {
+    if (email && encryptedEmail)
       updateFields.email = email.trim().toLowerCase();
-      if (hashedEmail) updateFields.emailHash = hashedEmail;
-    }
     if (password) updateFields.password = password;
 
     if (!updateFields.name && !updateFields.email && !updateFields.password) {
@@ -111,16 +110,17 @@ export default withEncryption(async function handler(
     updateFields.updatedAt = new Date();
 
     try {
-      const updatedUser = await User.findByIdAndUpdate(
+      const updatedDoc = await User.findByIdAndUpdate(
         userId,
         { $set: updateFields },
-        { new: true, runValidators: true, select: "-password -emailHash" }
-      ).lean();
-      if (!updatedUser) {
+        { new: true, runValidators: true, select: "-password" }
+      );
+      if (!updatedDoc) {
         return res
           .status(404)
           .json({ success: false, message: "User not found." });
       }
+      const updatedUser = updatedDoc.toObject({ getters: true });
       return res.status(200).json({ success: true, data: updatedUser });
     } catch (err: any) {
       if (err.name === "ValidationError" && err.errors) {
@@ -135,15 +135,15 @@ export default withEncryption(async function handler(
 
   if (method === "DELETE") {
     try {
-      const deletedUser = await User.findByIdAndDelete(userId, {
-        projection: { password: 0, emailHash: 0 },
-      }).lean();
-      if (!deletedUser) {
+      const deletedDoc = await User.findByIdAndDelete(userId, {
+        projection: { password: 0 },
+      });
+      if (!deletedDoc) {
         return res
           .status(404)
           .json({ success: false, message: "User not found." });
       }
-      return res.status(200).json({ success: true, data: deletedUser });
+      return res.status(200).json({ success: true, message: "User deleted." });
     } catch {
       return res.status(500).json({ success: false, message: "Server Error" });
     }

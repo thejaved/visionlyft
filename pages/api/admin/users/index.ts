@@ -1,4 +1,4 @@
-import { sha256 } from "@/lib/crypto";
+import { encrypt } from "@/lib/crypto";
 import connectDB from "@/lib/connectDB";
 import User, { IUser } from "@/models/User";
 import { withEncryption } from "@/middleware/encryption";
@@ -24,11 +24,13 @@ export default withEncryption(async function handler(
 
   if (method === "GET") {
     try {
-      const users = await User.find({}, { password: 0, emailHash: 0 })
-        .sort({ createdAt: -1 })
-        .lean();
+      const docs = await User.find().sort({ createdAt: -1 });
+      const users = docs.map((doc) =>
+        doc.toObject({ getters: true, virtuals: false })
+      );
       return res.status(200).json({ success: true, data: users });
-    } catch {
+    } catch (error) {
+      console.error("GET /api/users error:", error);
       return res.status(500).json({ success: false, message: "Server Error" });
     }
   }
@@ -44,7 +46,7 @@ export default withEncryption(async function handler(
     ) {
       return res
         .status(400)
-        .json({ success: false, message: "Name must be 2–50 characters." });
+        .json({ success: false, message: "Name must be 2-50 characters." });
     }
 
     if (
@@ -65,38 +67,48 @@ export default withEncryption(async function handler(
     }
 
     const normalizedEmail = email.trim().toLowerCase();
-    const hashedEmail = sha256(normalizedEmail);
+    const encryptedEmail = encrypt(normalizedEmail);
 
-    // Check if emailHash already exists:
-    const userWithHash = await User.findOne({ emailHash: hashedEmail }).lean();
-    if (userWithHash) {
-      return res
-        .status(409)
-        .json({ success: false, message: "Email already registered." });
+    try {
+      const existing = await User.findOne({ email: encryptedEmail })
+        .select("_id")
+        .lean();
+      if (existing) {
+        return res
+          .status(409)
+          .json({ success: false, message: "Email already registered." });
+      }
+    } catch (error) {
+      console.error("Email lookup failed:", error);
+      return res.status(500).json({ success: false, message: "Server Error" });
     }
 
     try {
-      const newUserDoc = await User.create({
+      const newDoc = await User.create({
         name: name.trim(),
         email: normalizedEmail,
-        emailHash: hashedEmail,
         password,
       });
-      const {
-        password: _,
-        emailHash: __,
-        ...userWithoutSensitive
-      } = newUserDoc.toObject();
-      return res
-        .status(201)
-        .json({ success: true, data: userWithoutSensitive });
+
+      const decrypted = newDoc.toObject({ getters: true });
+      const { password: _, ...userWithoutPassword } = decrypted;
+      return res.status(201).json({ success: true, data: userWithoutPassword });
     } catch (err: any) {
+      console.error("POST /api/users error:", err);
+
+      if (err.code === 11000 && err.keyPattern?.email) {
+        return res
+          .status(409)
+          .json({ success: false, message: "Email already registered." });
+      }
+
       if (err.name === "ValidationError" && err.errors) {
         const messages = Object.values(err.errors)
           .map((e: any) => e.message)
           .join("; ");
         return res.status(400).json({ success: false, message: messages });
       }
+
       return res.status(500).json({ success: false, message: "Server Error" });
     }
   }

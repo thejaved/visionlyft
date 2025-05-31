@@ -1,12 +1,13 @@
 import connectDB from "@/lib/connectDB";
 import User, { IUser } from "@/models/User";
+import { withEncryption } from "@/middleware/encryption";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseData =
   | { success: true; data: Partial<IUser> }
   | { success: false; message: string };
 
-export default async function handler(
+export default withEncryption(async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
@@ -57,4 +58,4 @@ export default async function handler(
     console.error("POST /api/auth/login error:", error);
     return res.status(500).json({ success: false, message: "Server Error" });
   }
-}
+});

@@ -25,8 +25,15 @@ export default async function handler(
 
   try {
     const decryptedText = decrypt(code);
-    const data = JSON.parse(decryptedText);
-    return res.status(200).json({ success: true, data });
+
+    let parsed: any;
+    try {
+      parsed = JSON.parse(decryptedText);
+    } catch {
+      parsed = decryptedText;
+    }
+
+    return res.status(200).json({ success: true, data: parsed });
   } catch {
     return res
       .status(500)
